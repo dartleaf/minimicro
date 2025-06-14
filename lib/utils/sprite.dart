@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:minimicro/utils/bounds.dart';
+
 /// A simple sprite class that represents a 2D image with position, scale, rotation, and tint.
 /// It provides methods to get the local and world bounds, check if a point is contained within the sprite,
 /// and check for overlaps with another sprite.
@@ -23,29 +25,30 @@ class Sprite {
   });
 
   /// Returns the bounds of the sprite relative to its position
-  Rect get localBounds {
+  Bounds get localBounds {
     double scaleX = scale is List ? scale[0] : scale;
     double scaleY = scale is List ? scale[1] : scale;
 
     double width = image.width * scaleX;
     double height = image.height * scaleY;
 
-    return Rect.fromLTWH(-width / 2, -height / 2, width, height);
+    return Bounds(x: -width / 2, y: -height / 2, width: width, height: height);
   }
 
   /// Returns the bounds of the sprite in world coordinates
-  Rect get worldBounds {
-    Rect local = localBounds;
-    return Rect.fromLTWH(
-      x + local.left,
-      y + local.top,
-      local.width,
-      local.height,
+  Bounds get worldBounds {
+    final local = localBounds;
+    return Bounds(
+      x: x + local.x,
+      y: y + local.y,
+      width: local.width,
+      height: local.height,
+      rotation: rotation,
     );
   }
 
   /// Checks if a point is contained within the sprite's bounds
-  bool contains(Offset point) {
+  bool contains(Point point) {
     if (rotation == 0) {
       return worldBounds.contains(point);
     } else {
@@ -54,13 +57,13 @@ class Sprite {
       double cosTheta = cos(-radians);
       double sinTheta = sin(-radians);
 
-      double dx = point.dx - x;
-      double dy = point.dy - y;
+      double dx = point.x - x;
+      double dy = point.y - y;
 
       double localX = dx * cosTheta - dy * sinTheta;
       double localY = dx * sinTheta + dy * cosTheta;
 
-      return localBounds.contains(Offset(localX, localY));
+      return localBounds.contains(Point(localX, localY));
     }
   }
 
