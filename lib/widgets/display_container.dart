@@ -17,14 +17,17 @@ class DisplayContainer extends StatefulWidget {
 class _DisplayContainerState extends State<DisplayContainer> {
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: widget.sharedState,
-      builder:
-          (context, _) => SizedBox(
-            width: displayWidth,
-            height: displayHeight,
-            child: widget.sharedState.build(context),
-          ),
+    return FittedBox(
+      fit: BoxFit.fill,
+      child: ListenableBuilder(
+        listenable: widget.sharedState,
+        builder:
+            (context, _) => SizedBox(
+              width: displayWidth,
+              height: displayHeight,
+              child: widget.sharedState.build(context),
+            ),
+      ),
     );
   }
 }

@@ -44,17 +44,14 @@ class _MiniMicroState extends State<MiniMicro> {
       builder: (context, constraints) {
         return AspectRatio(
           aspectRatio: displayWidth / displayHeight,
-          child: FittedBox(
-            fit: BoxFit.fill,
-            child: Stack(
-              children:
-                  sharedStates
-                      .map(
-                        (sharedState) =>
-                            DisplayContainer(sharedState: sharedState),
-                      )
-                      .toList(),
-            ),
+          child: Stack(
+            children:
+                sharedStates
+                    .map(
+                      (sharedState) =>
+                          DisplayContainer(sharedState: sharedState),
+                    )
+                    .toList(),
           ),
         );
       },
