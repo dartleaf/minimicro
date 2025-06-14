@@ -72,17 +72,17 @@ class TextDisplaySharedState extends SharedState {
       if (!_isFirst) {
         // Add delimeter at the first if it's not empty
         if (delimeter.isNotEmpty) {
-          printWithoutDelimeter(delimeter);
+          _printWithoutDelimeter(delimeter);
         }
       }
 
-      printWithoutDelimeter(s);
+      _printWithoutDelimeter(s);
 
       _isFirst = false;
     });
   }
 
-  void printWithoutDelimeter(String s) {
+  void _printWithoutDelimeter(String s) {
     // Split the string into lines
     final lines = s.split("\n");
 
