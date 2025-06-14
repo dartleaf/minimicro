@@ -4,6 +4,12 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:minimicro/shared_state/pixel_display_shared_state.dart';
 
+/// Utility class for drawing on a PixelDisplay.
+/// Provides methods for drawing shapes, lines, text, and images.
+/// Also includes methods for pixel manipulation and rendering the display as an image.
+/// This class is designed to work with the PixelDisplaySharedState
+/// which holds the pixel data and display properties
+/// with the coordinate bottom-left is (0, 0).
 class CanvasUtils {
   Canvas canvas;
   PixelDisplaySharedState sharedState;
@@ -196,7 +202,17 @@ class CanvasUtils {
     double? srcBottom,
     double? srcWidth,
     double? srcHeight,
-  ]) {}
+  ]) {
+    final srcRect = Rect.fromLTWH(
+      srcLeft ?? 0,
+      srcBottom ?? 0,
+      srcWidth ?? img.width.toDouble(),
+      srcHeight ?? img.height.toDouble(),
+    );
+    final dstRect = Rect.fromLTWH(left, -bottom - height, width, height);
+
+    canvas.drawImageRect(img, srcRect, dstRect, Paint());
+  }
 
   /// Get a portion of the display as an image
   Future<ui.Image> getImage(
