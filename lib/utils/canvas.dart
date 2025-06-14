@@ -1,7 +1,7 @@
 import 'dart:typed_data';
-import 'dart:ui' as ui;
+import 'dart:ui';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Image;
 import 'package:minimicro/shared_state/pixel_display_shared_state.dart';
 
 /// Utility class for drawing on a PixelDisplay.
@@ -187,13 +187,13 @@ class CanvasUtils {
     canvas.drawPath(path, paint);
   }
 
-  Future<ui.Image> toImage([int? targetWidth, int? targetHeight]) async {
-    return await sharedState.toImage(targetWidth, targetHeight);
+  Future<Image> toImage([int? targetWidth, int? targetHeight]) async {
+    return await sharedState.toUiImage(targetWidth, targetHeight);
   }
 
   /// Draw image or part of an image
   void drawImage(
-    ui.Image img,
+    Image img,
     double left,
     double bottom,
     double width,
@@ -215,14 +215,14 @@ class CanvasUtils {
   }
 
   /// Get a portion of the display as an image
-  Future<ui.Image> getImage(
+  Future<Image> getImage(
     double left,
     double bottom,
     double width,
     double height,
   ) async {
     // Create a PictureRecorder and Canvas to capture the portion
-    final recorder = ui.PictureRecorder();
+    final recorder = PictureRecorder();
     final captureCanvas = Canvas(recorder);
 
     // Define the source and destination rectangles

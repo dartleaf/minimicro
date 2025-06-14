@@ -20,7 +20,7 @@ class PixelDisplaySharedState extends SharedState {
   double get width => displayWidth;
   double get height => displayHeight;
 
-  Future<ui.Image> toImage([int? targetWidth, int? targetHeight]) async {
+  Future<ui.Image> toUiImage([int? targetWidth, int? targetHeight]) async {
     final codec = await ui.instantiateImageCodec(
       imageBytes.buffer.asUint8List(),
       targetWidth: targetWidth,
@@ -40,7 +40,7 @@ class PixelDisplaySharedState extends SharedState {
       final canvas = Canvas(recorder);
 
       canvas.drawImageRect(
-        await toImage(),
+        await toUiImage(),
         Rect.fromLTWH(0, 0, displayWidth, displayHeight),
         Rect.fromLTWH(0, 0, displayWidth, displayHeight),
         Paint(),
