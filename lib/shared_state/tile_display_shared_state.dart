@@ -3,12 +3,17 @@ import 'package:minimicro/shared_state/shared_state.dart';
 import 'package:minimicro/widgets/display.dart';
 import 'package:minimicro/widgets/tile_display.dart';
 
+/// A tile display shows a rectangular or
+/// hexagonal grid of small images called
+/// tiles. You can configure the size of and
+/// number of these tiles, their overlap, and
+/// an overall scroll position.
 class TileDisplaySharedState extends SharedState {
   // Properties for the tile display
   int cols = 0;
   int rows = 0;
-  List<List<int?>> _cells = [];
-  List<List<Color?>> _cellTints = [];
+  List<List<int?>> cells = [];
+  List<List<Color?>> cellTints = [];
   ImageProvider? tileSet;
   double? tileSetTileWidth;
   double? tileSetTileHeight;
@@ -22,8 +27,8 @@ class TileDisplaySharedState extends SharedState {
   double scrollY = 0;
 
   void clear([int? toIndex]) {
-    _cells = List.generate(rows, (r) => List.filled(cols, toIndex));
-    _cellTints = List.generate(rows, (r) => List.filled(cols, null));
+    cells = List.generate(rows, (r) => List.filled(cols, toIndex));
+    cellTints = List.generate(rows, (r) => List.filled(cols, null));
   }
 
   void setExtent(int cols, int rows) {
@@ -39,33 +44,29 @@ class TileDisplaySharedState extends SharedState {
   }
 
   int? cell(int x, int y) {
-    return setState(() {
-      if (_isValidCell(x, y)) {
-        return _cells[y][x];
-      }
-      return null;
-    });
+    if (_isValidCell(x, y)) {
+      return cells[y][x];
+    }
+    return null;
   }
 
   void setCell(int x, int y, int? idx) {
     if (_isValidCell(x, y)) {
-      _cells[y][x] = idx;
+      cells[y][x] = idx;
       notifyListeners();
     }
   }
 
   Color? cellTint(int x, int y) {
-    return setState(() {
-      if (_isValidCell(x, y)) {
-        return _cellTints[y][x];
-      }
-      return null;
-    });
+    if (_isValidCell(x, y)) {
+      return cellTints[y][x];
+    }
+    return null;
   }
 
   void setCellTint(int x, int y, Color? color) {
     if (_isValidCell(x, y)) {
-      _cellTints[y][x] = color;
+      cellTints[y][x] = color;
       notifyListeners();
     }
   }
